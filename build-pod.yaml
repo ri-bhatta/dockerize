@@ -4,15 +4,24 @@ metadata:
   name: build-pod
 spec:
   containers:
-  - name: kaniko-container
-    image: gcr.io/kaniko-project/executor:latest
+  - name: docker-build-container
+    image: docker.io/library/alpine:3.13
+    command: ["/bin/sh"]
     args:
-    - --context=git://github.com/ri-bhatta/dockerize.git
-    - --dockerfile=/Dockerfile
-    - --destination=6294720479/myapp:latest
-    - --skip-tls-verify
-  restartPolicy: Never
+      - "-c"
+      - |
+        apk --no-cache add docker-cli
+        echo "dckr_pat_poKf1QgTQJB3IrJVq7JRGQlvii4" | docker login -u 6294720479 --password-stdin
+        docker build -t 6294720479/myapp -f /Dockerfile .
+        docker push 6294720479/myapp
+    volumeMounts:
+      - name: app-volume
+        mountPath: /app
   volumes:
-  - name: kaniko-secret
-    secret:
-      secretName: dockerhub-creds
+  - name: app-volume
+    gitRepo:
+      repository: "https://github.com/ri-bhatta/dockerize.git"
+      revision: main
+      directory: /
+  imagePullSecrets:
+  - name: dockerhub-creds
