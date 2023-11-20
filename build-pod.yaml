@@ -9,13 +9,21 @@ spec:
     args:
       - "--context=git://github.com/ri-bhatta/dockerize.git"
       - "--destination=6294720479/myapp:1.0"
-      - "--dockerfile=/Dockerfile"  # Update this line with the correct path
+      - "--dockerfile=/Dockerfile"
+    env:
+      - name: DOCKER_CONFIG
+        value: /kaniko/.docker
     volumeMounts:
       - name: app-volume
         mountPath: /app
+      - name: kaniko-secret
+        mountPath: /kaniko/.docker
   volumes:
-  - name: app-volume
-    gitRepo:
-      repository: "https://github.com/ri-bhatta/dockerize.git"
-      revision: main
-      directory: ""
+    - name: app-volume
+      gitRepo:
+        repository: "https://github.com/ri-bhatta/dockerize.git"
+        revision: main
+        directory: ""
+    - name: kaniko-secret
+      secret:
+        secretName: dockerhub-creds
