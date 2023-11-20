@@ -22,4 +22,4 @@ spec:
     gitRepo:
       repository: "https://github.com/ri-bhatta/dockerize.git"
       revision: main
-      directory: /
+      directory: ""
