@@ -1,7 +1,11 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: build-pod
 spec:
   containers:
   - name: docker-build-container
-    image: docker.io/library/alpine:3.13 # or use your custom Dockerfile on GitHub
+    image: docker.io/library/alpine:3.13
     command: ["/bin/sh"]
     args:
       - "-c"
