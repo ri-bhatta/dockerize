@@ -1,0 +1,21 @@
+spec:
+  containers:
+  - name: docker-build-container
+    image: docker.io/library/alpine:3.13 # or use your custom Dockerfile on GitHub
+    command: ["/bin/sh"]
+    args:
+      - "-c"
+      - |
+        apk --no-cache add docker-cli
+        docker login -u 6294720479 -p Ritesh@WB23
+        docker build -t 6294720479/myapp:1.0 -f Dockerfile .
+        docker push 6294720479/myapp:1.0
+    volumeMounts:
+      - name: app-volume
+        mountPath: /app
+  volumes:
+  - name: app-volume
+    gitRepo:
+      repository: "https://github.com/ri-bhatta/dockerize.git"
+      revision: main
+      directory: /
