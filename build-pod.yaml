@@ -4,16 +4,9 @@ metadata:
   name: build-pod
 spec:
   containers:
-  - name: docker-build-container
-    image: docker.io/library/alpine:3.13
-    command: ["/bin/sh"]
-    args:
-      - "-c"
-      - |
-        apk --no-cache add docker-cli
-        docker login -u 6294720479 -p Ritesh@WB23
-        docker build -t 6294720479/myapp:1.0 -f Dockerfile .
-        docker push 6294720479/myapp:1.0
+  - name: kaniko-container
+    image: gcr.io/kaniko-project/executor:debug
+    args: ["--context=git://github.com/ri-bhatta/dockerize.git", "--destination=6294720479/myapp:1.0", "--dockerfile=/app/Dockerfile"]
     volumeMounts:
       - name: app-volume
         mountPath: /app
