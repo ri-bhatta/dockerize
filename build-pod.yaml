@@ -6,7 +6,10 @@ spec:
   containers:
   - name: kaniko-container
     image: gcr.io/kaniko-project/executor:debug
-    args: ["--context=git://github.com/ri-bhatta/dockerize.git", "--destination=6294720479/myapp:1.0", "--dockerfile=/app/Dockerfile"]
+    args:
+      - "--context=git://github.com/ri-bhatta/dockerize.git"
+      - "--destination=6294720479/myapp:1.0"
+      - "--dockerfile=/Dockerfile"  # Update this line with the correct path
     volumeMounts:
       - name: app-volume
         mountPath: /app
