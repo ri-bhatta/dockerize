@@ -12,7 +12,7 @@ spec:
       - |
         apk --no-cache add docker-cli
         echo "dckr_pat_poKf1QgTQJB3IrJVq7JRGQlvii4" | docker login -u 6294720479 --password-stdin
-        docker build -t 6294720479/myapp -f /Dockerfile .
+        docker build -t 6294720479/myapp -f /app/Dockerfile /app
         docker push 6294720479/myapp
     volumeMounts:
       - name: app-volume
