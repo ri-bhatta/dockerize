@@ -5,25 +5,14 @@ metadata:
 spec:
   containers:
   - name: kaniko-container
-    image: gcr.io/kaniko-project/executor:debug
+    image: gcr.io/kaniko-project/executor:latest
     args:
-      - "--context=git://github.com/ri-bhatta/dockerize.git"
-      - "--destination=6294720479/myapp:1.0"
-      - "--dockerfile=/Dockerfile"
-    env:
-      - name: DOCKER_CONFIG
-        value: /kaniko/.docker
-    volumeMounts:
-      - name: app-volume
-        mountPath: /app
-      - name: kaniko-secret
-        mountPath: /kaniko/.docker
+    - --context=git://github.com/ri-bhatta/dockerize.git
+    - --dockerfile=/Dockerfile
+    - --destination=6294720479/myapp:1.0
+    - --skip-tls-verify
+  restartPolicy: Never
   volumes:
-    - name: app-volume
-      gitRepo:
-        repository: "https://github.com/ri-bhatta/dockerize.git"
-        revision: main
-        directory: ""
-    - name: kaniko-secret
-      secret:
-        secretName: dockerhub-creds
+  - name: kaniko-secret
+    secret:
+      secretName: dockerhub-creds
