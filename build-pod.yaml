@@ -1,27 +1,8 @@
 apiVersion: v1
 kind: Pod
 metadata:
-  name: build-pod
+  name: test-pod
 spec:
   containers:
-  - name: docker-build-container
-    image: docker.io/library/alpine:3.13
-    command: ["/bin/sh"]
-    args:
-      - "-c"
-      - |
-        apk --no-cache add docker-cli
-        echo "dckr_pat_poKf1QgTQJB3IrJVq7JRGQlvii4" | docker login -u 6294720479 --password-stdin
-        docker build -t 6294720479/myapp -f /app/Dockerfile /app
-        docker push 6294720479/myapp
-    volumeMounts:
-      - name: app-volume
-        mountPath: /app
-  volumes:
-  - name: app-volume
-    gitRepo:
-      repository: "https://github.com/ri-bhatta/dockerize.git"
-      revision: main
-      directory: /
-  imagePullSecrets:
-  - name: dockerhub-creds
+  - name: test-container
+    image: 6294720479/myapp:latest
