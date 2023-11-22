@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: myapp-deployment
+spec:
+  replicas: 3  # Set the number of desired replicas
+  selector:
+    matchLabels:
+      app: myapp
+  template:
+    metadata:
+      labels:
+        app: myapp
+    spec:
+      containers:
+        - name: myapp-container
+          image: docker.io/6294720479/myapp:latest  # Use the image from Docker Hub
+          ports:
+            - containerPort: 8080  # Adjust the port if needed
